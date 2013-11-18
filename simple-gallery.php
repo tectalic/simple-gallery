@@ -3,7 +3,7 @@
 Plugin Name: Simple Image Gallery
 Plugin URI: http://om4.com.au/wordpress-plugins/
 Description: Creates powerful and attractive image galleries that don't require Adobe Flash.
-Version: 1.8
+Version: 1.8.1-dev
 Author: OM4
 Author URI: http://om4.com.au/
 Text Domain: om4-simplegallery
@@ -81,7 +81,7 @@ class OM4_Simple_Gallery {
 	 *
 	 */
 	function LoadDomain() {
-		load_plugin_textdomain( 'om4-simplegallery', WP_PLUGIN_DIR.'/' . $this->dirname );
+		load_plugin_textdomain( 'om4-simplegallery', false, dirname( plugin_basename( __FILE__) ) );
 	}
 	
 	/**
