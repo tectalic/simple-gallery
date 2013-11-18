@@ -7,6 +7,8 @@ Version: 1.8
 Author: OM4
 Author URI: http://om4.com.au/
 Text Domain: om4-simplegallery
+Git URI: https://github.com/OM4/simple-gallery
+Git Branch: release
 */
 
 /*  Copyright 2009-2013 OM4 (email: info@om4.com.au    web: http://om4.com.au/)
