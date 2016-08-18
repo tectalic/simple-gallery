@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Simple Image Gallery
-Plugin URI: http://om4.com.au/wordpress-plugins/
+Plugin URI: https://om4.com.au/plugins/
 Description: Creates powerful and attractive image galleries that don't require Adobe Flash.
-Version: 1.8.2
+Version: 1.8.3
 Author: OM4
-Author URI: http://om4.com.au/
+Author URI: https://om4.com.au/plugins/
 Text Domain: om4-simplegallery
 Git URI: https://github.com/OM4/simple-gallery
 Git Branch: release
 License: GPLv2
 */
 
-/*  Copyright 2009-2013 OM4 (email: info@om4.com.au    web: http://om4.com.au/)
+/*  Copyright 2009-2016 OM4 (email: plugins@om4.com.au    web: https://om4.com.au/plugins/)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ License: GPLv2
 
 class OM4_Simple_Gallery {
 	
-	var $version = '1.8.2';
+	var $version = '1.8.3';
 	
 	var $dbVersion = 1;
 	
@@ -52,7 +52,7 @@ class OM4_Simple_Gallery {
 	 * Constructor
 	 *
 	 */
-	function OM4_Simple_Gallery() {
+	public function __construct() {
 		
 		// Uncomment to prevent browsers caching the JS file while debugging.
 		//$this->version .= time();
