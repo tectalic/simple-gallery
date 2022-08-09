@@ -1,10 +1,22 @@
+/* Newly added code -START */
+jQuery.browser = {};
+(function () {
+  jQuery.browser.msie = false;
+  jQuery.browser.version = 0;
+  if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+    jQuery.browser.msie = true;
+    jQuery.browser.version = RegExp.$1;
+  }
+})();
+/* Newly added code -END */
+
 jQuery.noConflict();
 
 jQuery(document).ready(function($){
 	// Register each image gallery on the page
 	var galleries = $("div.simplegallery");
 	var numGalleries = galleries.size();
-	
+
 	for (i = 0; i < numGalleries; i++) {
 	    simplegallery($(galleries[i]).attr('id'));
 	}
@@ -12,25 +24,25 @@ jQuery(document).ready(function($){
 	function simplegallery(id) {
 	  // The CSS selector for the current gallery, based on the id passed to this function
 	  var selector = "#" + id;
-	  
+
 	  var index = 0;
 	  var thumbs = $(selector + " .thumbnails dt a");
 	  var thumbnailcontainer = $(selector + " .thumbnails");
 	  var largeimagecontainer = $(selector + " .largeimage");
 	  var large = $(largeimagecontainer).children('a').children("img");
 	  var caption = $(largeimagecontainer).children("h3");
-	  
+
 	  var numThumbs = thumbs.size();
-	  
+
 	  var current = thumbs[index];
-	  
+
 	  // Remove the class names from all thumbnails and the large image
 	  // This ensures the shutter reloaded effect doesn't automatically apply to the images in our gallery (because they have the shutterset class)
 	  $(thumbs).attr('class', '');
 	  debug(selector + ': thumbnail classes removed');
 	  $(largeimagecontainer).children('a').attr('class', '');
 	  debug(selector + ': large image classes removed: ' + $(largeimagecontainer).children('a').attr('class'));
-	  
+
 	  function showImg(img) {
 	    debug(selector + ': img showImg() called for thumbnail <a> with href ' + $(img).attr('href'));
 
@@ -43,24 +55,24 @@ jQuery(document).ready(function($){
 		$(large).hide();
 		$(largeimagecontainer).addClass('loading');
 	    }
-	    
+
 	    $(large)
 	    	.attr("src", $(img).attr("href"))
 	    	.attr("title", $(img).attr("title"))
 	    	.attr("alt", $(img).attr("title"))
 	    ;
-	    
+
 	    var captionHTML = $.trim($(img).parent().parent().children("dd").html());
-	    
+
 	    // Variable to store the onresize event later
 	    var resize = null;
-	    
+
 	    // try and display the caption
 	    $(caption).html(captionHTML);
-	    
+
 	    // Update the large image link to link directly to the file
 	    $(large).parent().attr("href", $(img).attr("href"));
-	
+
 	    // Check if shutter reloaded plugin is present
 	    if("object" == typeof shutterReloaded) {
 	    	// Display the large image in the shutter reloaded lightbox style
@@ -68,7 +80,7 @@ jQuery(document).ready(function($){
 		        shutterLinks['simpleviewer'] = null;
 		        shutterLinks['simpleviewer'] = {link:$(img).attr("href"),num:-1,set:0,title:captionHTML}
 		        shutterReloaded.make('simpleviewer');
-		        
+
 		        // Remove the window.onresize event that Shutter Reloaded adds in order to prevent strange behavior with IE8 (see Bug #916)
 		        $(window).attr('onresize', '');
 		        return false;
@@ -82,7 +94,7 @@ jQuery(document).ready(function($){
 	    updateNavigation();
 
 	  }
-	  
+
 	  $(thumbs).click( function() {
 	    // Update the index
 	    for (i = 0; i < numThumbs; i++) {
@@ -94,50 +106,50 @@ jQuery(document).ready(function($){
 	    showImg($(this));
 	    return false;
 	  } );
-	    
+
 	  // Large image loading
 	  $(large).load(function(){
-		  
+
 	    debug(selector + ': img load() called for img ' + $(this).attr('src'));
-	    
+
 	    // IE6 doesn't support max-width and max-height, so it must be done in JS instead
 	    var resize = false;
 	    if ($.browser.msie && $.browser.version.indexOf('6.0') == 0) {
 	      resize = true;
 	    }
-	    
+
 	    //resize = true;
-	    
+
 	    if (resize) {
-	      
+
 	      // Reset width and height
 	      $(large).width('');
 	      $(large).height('');
-	    
+
 	      var src = $(large).attr('src');
-	         
+
 	      var constraint = 'width';
 	      var size = parseInt($(large).width());
 	      var cssMaxSize = $(large).css('max-' + constraint);
-	      
+
 	      var cssRatio = parseInt(cssMaxSize) / parseInt($(large).css('max-height'));
 	      var imageRatio = size / parseInt($(large).height());
-	      
+
 	      debug(selector + ': ' + src + ': css ratio ' + cssRatio + ' img ratio ' + imageRatio);
-	      
+
 	      if (parseInt($(large).height()) > size) {
 	        constraint = 'height';
 	        size = parseInt($(large).height());
 	        cssMaxSize = $(large).css('max-height');
 	      }
-	      
+
 	      debug(selector + ': ' + src + ': constraint is ' + constraint);
-	      
+
 	      if (cssMaxSize != "" && cssMaxSize.indexOf('px') > -1) {
 	         cssMaxSize = parseInt(cssMaxSize);
-	      
+
 	         //debug(src + ': css max-' + constraint + ' is set to: ' + cssMaxSize);
-	         
+
 	         if (size > cssMaxSize) {
 	            // adjust the width/height
 	            if (constraint == 'height') {
@@ -151,11 +163,11 @@ jQuery(document).ready(function($){
 	         }
 	      }
 	    }
-	    
-	    
+
+
 	    debug(selector + ': image W x H:  ' + $(large).width() + ' x ' + $(large).height());
-	    
-	    
+
+
 	    // Slowly fade the image in. Remove the loading graphic when finished
 	    if (gallerySettings[id]['fade'] == 'out-in' || gallerySettings[id]['fade'] == 'over') {
 		$(large).fadeIn(gallerySettings[id]['fadespeed'], function() {
@@ -163,7 +175,7 @@ jQuery(document).ready(function($){
 		    setBgImage();
 		} );
 	    }
-	    
+
 	  });
 
 	  function setBgImage() {
@@ -172,7 +184,7 @@ jQuery(document).ready(function($){
 	      debug(selector + ': set background image to ' + $(large).attr('src'));
 	      $(largeimagecontainer).css('background-image', 'url(' + $(large).attr('src') + ')');
 	  }
-	  
+
 	  /* Next/Previous Keyboard Navigation */
 	  // http://stackoverflow.com/questions/492865/jquery-keypress-event-not-firing
 	  function checkKey(e){
@@ -189,7 +201,7 @@ jQuery(document).ready(function($){
 	          break;
 	      }
 	  }
-	  
+
 	  /* Display the next image (used for keyboard and arrow navigation) */
 	  function showNext() {
 	    if (hasNext()) {
@@ -197,7 +209,7 @@ jQuery(document).ready(function($){
 	      showImg(thumbs[index]);
 	    }
 	  }
-	  
+
 	  /* Display the previous image (used for keyboard and arrow navigation) */
 	  function showPrevious() {
 	    if (hasPrevious()) {
@@ -205,15 +217,15 @@ jQuery(document).ready(function($){
 	      showImg(thumbs[index]);
 	    }
 	  }
-	  
+
 	  function hasNext() {
 	    return (index < numThumbs-1);
 	  }
-	  
+
 	  function hasPrevious() {
 	    return (index > 0);
 	  }
-	  
+
 	  function updateNavigation() {
 	    if (hasPrevious()) {
 	      //debug('previous = true');
@@ -224,7 +236,7 @@ jQuery(document).ready(function($){
 	      $(selector + " .simplegalleryprev").addClass('disabled');
 	      $(selector + " .simplegalleryprev").removeClass('enabled');
 	    }
-	    
+
 	    if (hasNext()) {
 	      //debug('next = true');
 	      $(selector + " .simplegallerynext").addClass('enabled');
@@ -234,11 +246,11 @@ jQuery(document).ready(function($){
 	      $(selector + " .simplegallerynext").addClass('disabled');
 	      $(selector + " .simplegallerynext").removeClass('enabled');
 	    }
-	    
+
 	    // Update the image number
 	    $(selector + " .simplegalleryimagenumber").html(index + 1);
 	  }
-	  
+
 	  // Display the first large image
 	  showImg(thumbs[0]);
 
@@ -250,21 +262,21 @@ jQuery(document).ready(function($){
 	    .append('<li class="simplegallerynext enabled"><a href="javascript:void();" title="Next"><span>&rarr;</span></a></li>')
 	    .append('</ul>')
 	    ;
-	
-	  // Previous button click handler    
+
+	  // Previous button click handler
 	  $(selector + " .simplegalleryprev").click( function() {
 	    if ($(this).hasClass('disabled')) return false;
 	    showPrevious();
 	    return false;
 	  } );
-	  
+
 	  // Next button click handler
 	  $(selector + " .simplegallerynext").click( function() {
 	    if ($(this).hasClass('disabled')) return false;
 	    showNext();
 	    return false;
 	  } );
-	  
+
 	  if ($.browser.mozilla) {
 	      $(document).keypress(checkKey);
 	  } else {
