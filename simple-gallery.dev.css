@@ -8,14 +8,18 @@
   display: inline-block !important;
 }
 /* Newly added code -END */
+
 .simplegallery .thumbnails {
   float: left;
   overflow: auto;
   width: 200px;
 }
+
+/* Hide the captions from the thumbnail nav */
 .simplegallery .thumbnails dd {
   display: none;
 }
+
 .simplegallery .largeimage {
   float: left;
   margin: 0;
@@ -27,18 +31,22 @@
   background-repeat: no-repeat;
   background-position: top left;
 }
+
 .simplegallery img {
   margin: 0;
 }
+
 .simplegallery .clearboth {
   clear: both;
 }
+
 .simplegallery .simplegallerynavbar {
   position: absolute;
   bottom: -50px;
-  right: 0;
+  right: 0px;
   width: 100%;
 }
+
 .simplegallery .simplegallerynavbar ul {
   list-style-type: none !important;
   padding: 0;
@@ -47,6 +55,7 @@
   margin: 0 auto;
   width: 15em;
 }
+
 .simplegallery .simplegallerynavbar li {
   text-align: center;
   float: left;
@@ -54,45 +63,53 @@
   width: 4em;
   height: 2em;
 }
+
 .simplegallery .simplegallerynavbar li a {
   display: block;
   text-decoration: none !important;
   font-size: 2em;
 }
+
 .simplegallery .simplegallerynavbar .disabled {
   visibility: hidden;
 }
+
 .simplegallery .imagecaption {
   margin: 0;
 }
+
+/**** Begin Thumbnail Navigation ****/
 .simplegallery .thumbnails.hasthumbnailscroll > div.gallerywrapper {
   overflow: hidden;
   float: left;
   width: 90%;
 }
+
 .simplegallery .thumbnails.hasthumbnailscroll div.gallerywrapper div.gallery {
-  min-width: 2000px;
+  min-width: 2000px; /* This number is automatically set using Javascript */
 }
+
 .simplegallery .thumbnails.hasthumbnailscroll .gallery dl.gallery-item {
   position: relative;
   left: 0;
 }
+
 .simplegallery .thumbnailscroll {
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
   display: block;
   width: 5%;
-  height: 100%;
+  height: 100%; /* This number is automatically set using Javascript */
 }
+
 .simplegallery .thumbnailscroll.thumbnailscroll-prev {
   float: left;
   background-image: url(img/icon-prev.png);
 }
-.simplegallerylargeimage {
-  display: block;
-}
-simplegallery .thumbnailscroll.thumbnailscroll-next {
+
+.simplegallery .thumbnailscroll.thumbnailscroll-next {
   float: right;
   background-image: url(img/icon-next.png);
 }
+/**** End Thumbnail Navigation ****/
