@@ -3,19 +3,25 @@
   margin-bottom: 50px;
 }
 
+/* Newly added code -START */
+.simplegallery a img {
+  display: inline-block !important;
+}
+/* Newly added code -END */
+
 .simplegallery .thumbnails {
-  float:left;
+  float: left;
   overflow: auto;
   width: 200px;
 }
 
 /* Hide the captions from the thumbnail nav */
-.simplegallery .thumbnails dd { 
-  display: none; 
+.simplegallery .thumbnails dd {
+  display: none;
 }
 
 .simplegallery .largeimage {
-  float:left;
+  float: left;
   margin: 0;
   padding: 0;
   width: 600px;
@@ -27,14 +33,14 @@
 }
 
 .simplegallery img {
-    margin: 0;
+  margin: 0;
 }
 
 .simplegallery .clearboth {
   clear: both;
 }
 
-.simplegallery .simplegallerynavbar { 
+.simplegallery .simplegallerynavbar {
   position: absolute;
   bottom: -50px;
   right: 0px;
@@ -64,47 +70,46 @@
   font-size: 2em;
 }
 
-.simplegallery .simplegallerynavbar .disabled { 
+.simplegallery .simplegallerynavbar .disabled {
   visibility: hidden;
 }
 
 .simplegallery .imagecaption {
-    margin: 0;
+  margin: 0;
 }
-
 
 /**** Begin Thumbnail Navigation ****/
 .simplegallery .thumbnails.hasthumbnailscroll > div.gallerywrapper {
-	overflow: hidden;
-	float: left;
-	width: 90%
+  overflow: hidden;
+  float: left;
+  width: 90%;
 }
 
 .simplegallery .thumbnails.hasthumbnailscroll div.gallerywrapper div.gallery {
-	min-width: 2000px; /* This number is automatically set using Javascript */
+  min-width: 2000px; /* This number is automatically set using Javascript */
 }
 
 .simplegallery .thumbnails.hasthumbnailscroll .gallery dl.gallery-item {
-	position: relative;
-	left: 0;
+  position: relative;
+  left: 0;
 }
 
 .simplegallery .thumbnailscroll {
-	background-repeat: no-repeat;
-	background-position: center;
-	cursor: pointer;
-	display: block;
-	width: 5%;
-	height: 100%; /* This number is automatically set using Javascript */
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  display: block;
+  width: 5%;
+  height: 100%; /* This number is automatically set using Javascript */
 }
 
 .simplegallery .thumbnailscroll.thumbnailscroll-prev {
-	float: left;
-	background-image: url(img/icon-prev.png);
+  float: left;
+  background-image: url(img/icon-prev.png);
 }
 
 .simplegallery .thumbnailscroll.thumbnailscroll-next {
-	float: right;
-	background-image: url(img/icon-next.png);
+  float: right;
+  background-image: url(img/icon-next.png);
 }
 /**** End Thumbnail Navigation ****/
