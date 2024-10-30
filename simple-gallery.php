@@ -1,18 +1,18 @@
 <?php
 /*
 Plugin Name: Simple Image Gallery
-Plugin URI: https://om4.com.au/plugins/
+Plugin URI: https://tectalic.com/software/
 Description: Creates powerful and attractive image galleries that don't require Adobe Flash.
-Version: 1.8.3
-Author: OM4
-Author URI: https://om4.com.au/plugins/
+Version: 1.8.5
+Author: Tectalic
+Author URI: https://tectalic.com/software/
 Text Domain: om4-simplegallery
-Git URI: https://github.com/OM4/simple-gallery
+Git URI: https://github.com/tectalic/simple-gallery
 Git Branch: release
 License: GPLv2
 */
 
-/*  Copyright 2009-2016 OM4 (email: plugins@om4.com.au    web: https://om4.com.au/plugins/)
+/*  Copyright 2009-2024 OM4, now Tectalic (email: plugins@tectalic.com web: https://tectalic.com/software/)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -31,52 +31,52 @@ License: GPLv2
 
 
 class OM4_Simple_Gallery {
-	
-	public $version = '1.8.3';
-	
+
+	public $version = '1.8.5';
+
 	public $dbVersion = 1;
-	
+
 	public $installedVersion;
-	
+
 	public $dirname;
-	
+
 	public $url;
-	
+
 	static $number = 1;
 
 	public $script_suffix = '';
 
 	public $style_suffix = '';
-	
+
 	/**
 	 * Constructor
 	 *
 	 */
 	public function __construct() {
-		
+
 		// Uncomment to prevent browsers caching the JS file while debugging.
 		//$this->version .= time();
-		
+
 		// Store the name of the directory that this plugin is installed in
 		$this->dirname = str_replace('/simple-gallery.php', '', plugin_basename(__FILE__));
-		
+
 		$this->url = plugins_url($this->dirname . '/');
 
 		register_activation_hook(__FILE__, array($this, 'Activate'));
-		
+
 		add_action('init', array($this, 'LoadDomain'));
-		
+
 		add_action('init', array($this, 'CheckVersion'));
-		
+
 		add_action('init', array($this, 'RegisterShortcode'));
 
 		add_action('wp_enqueue_scripts', array($this, 'RegisterScripts'));
 
 		add_filter('option_srel_options', array($this, 'ForceShutterReloadedInHead'));
-		
+
 		$this->installedVersion = intval(get_option('om4_simple_gallery_db_version'));
 	}
-	
+
 	/**
 	 * Intialise I18n
 	 *
@@ -84,20 +84,20 @@ class OM4_Simple_Gallery {
 	function LoadDomain() {
 		load_plugin_textdomain( 'om4-simplegallery', false, dirname( plugin_basename( __FILE__) ) );
 	}
-	
+
 	/**
 	 * Plugin Activation Tasks
 	 *
 	 */
 	function Activate() {
 		// There aren't really any installation tasks at the moment
-		
+
 		if (!$this->installedVersion) {
 			$this->installedVersion = $this->dbVersion;
 			$this->SaveInstalledVersion();
 		}
 	}
-	
+
 	/**
 	 * Performs any upgrade tasks if required
 	 *
@@ -110,13 +110,13 @@ class OM4_Simple_Gallery {
 			}
 			$this->SaveInstalledVersion();
 		}
-		
+
 	}
-	
+
 	function RegisterShortcode() {
 		add_shortcode('simplegallery', array($this, 'ShortcodeHandler'));
 	}
-	
+
 	/**
 	 * Register the required JS/CSS so it is included in the page's <head> section
 	 */
@@ -125,16 +125,16 @@ class OM4_Simple_Gallery {
 	    // Load the minified js and CSS files, unless these constants are set
 	    $this->script_suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '.dev' : '';
 	    $this->style_suffix = defined('STYLE_DEBUG') && STYLE_DEBUG ? '.dev' : '';
-	    
+
 	    wp_enqueue_script('simple_gallery_js', "{$this->url}simple-gallery{$this->script_suffix}.js", array('jquery'), $this->version);
 	    wp_enqueue_style('simple_gallery', "{$this->url}simple-gallery{$this->style_suffix}.css", array(), $this->version, 'screen');
 	}
-	
+
 	/**
 	 * Handler for the [simplegallery] shortcode
 	 */
 	function ShortcodeHandler($atts, $content = null) {
-	
+
 		// List of supported shortcode attributes and their default values
 		$defaults = array(
 		  'columns' => '1', // The number of columns for the thumbnails. If columns is set to 0, no row breaks will be included. Default: 1
@@ -145,7 +145,7 @@ class OM4_Simple_Gallery {
 		  //						over: fades the new image over the top of the existing image (doesn't display a "loading" message). For this effect to work properly, all images should be the same size, and the largeimagewidth and largeimageheight parameters should be set to this size.
 		  'fadespeed' => 600, // Number of milliseconds it takes to fade in the image. Has no effect if fade="none"
 		  'id' => get_the_ID(), // The page/post ID to display the images from. The gallery will display images which are attached to that post. The default behaviour if no ID is specified is to display images attached to the current post.
-		  'include' => '', // Comma separated list of attachment IDs to include in this gallery. include="23,39,45 will show only these attachment IDs. 
+		  'include' => '', // Comma separated list of attachment IDs to include in this gallery. include="23,39,45 will show only these attachment IDs.
 		  'largeimagewidth' => '600', // Maximum width of the large image (in pixels). Default: 600
 		  'largeimageheight' => '400', // Maximum height of the large image (in pixels). Default: 400
 		  'navigation' => 1, // Whether or not to display the next/previous navigation. 1=Yes, 0=No. Default: 1
@@ -158,16 +158,16 @@ class OM4_Simple_Gallery {
 		  'thumbnailscroll' => 0, // Whether or not to display the next/previous scrolling navigation. Only supported when thumbnailalign="bottom" 1=Yes, 0=No. Default: 0
 		  'size' => 'thumbnail'  // Thumbnail image size. Valid values: thumbnail | medium | large   default: thumbnail     The size of the images for "thumbnail", "medium" and "large" can be configured in WordPress admin panel under Settings > Media
 		);
-		
+
 		$atts = shortcode_atts( $defaults, $atts);
-		
+
 		// Valid values for each parameter
 		$validValues['thumbnailalign'] = array('left', 'right', 'top', 'bottom');
 		$validValues['fade'] = array('out-in', 'none', 'over');
-		
+
 		$atts['largeimagewidth'] = intval($atts['largeimagewidth']);
 		if (! $atts['largeimagewidth'] ) $atts['largeimagewidth'] = $defaults['largeimagewidth'];
-		
+
 		$atts['largeimageheight'] = intval($atts['largeimageheight']);
 		if (! $atts['largeimageheight'] ) $atts['largeimageheight'] = $defaults['largeimageheight'];
 
@@ -207,7 +207,7 @@ class OM4_Simple_Gallery {
 			if ( !$attr['orderby'] )
 				unset( $attr['orderby'] );
 		}
-		
+
 		extract( $atts, EXTR_SKIP );
 		if (empty($cssid)) {
 			$cssid = 'simplegallery_' . self::$number;
@@ -222,7 +222,7 @@ $selector .largeimage img { max-width: {$largeimagewidth}px; max-height: {$large
 $selector .largeimage { width: {$largeimagewidth}px; height: {$largeimageheight}px; }
 
 EOD;
-        
+
         // CSS rules that are dependent on the gallery thumbnail alignnment
         switch ($thumbnailalign) {
         	case 'left':
@@ -235,10 +235,10 @@ EOD;
         	case 'top':
         	case 'bottom':
         		// thumbnails position is controlled below (by the HTML output order)
-        		
+
         		// Override the columns parameter so the thumbs appear next to each other
         		$columns = 0;
-        		
+
         		// Remove all floats and dimensions
         		$css .= <<<EOD
 $selector, $selector .thumbnails { height: auto; }
@@ -249,7 +249,7 @@ $selector .thumbnails .gallery-item { width: auto !important; }
 EOD;
         		break;
         }
-		
+
         $html = <<<EOD
 <style type="text/css">
 $css
@@ -272,9 +272,9 @@ gallerySettings['$cssid'] = {
 </script>
 
 EOD;
-		
+
 		$html .= '<div class="simplegallery" id="' . $cssid . '">';
-		
+
 		// Thumbnail panel HTML code
 		// See http://codex.wordpress.org/Gallery_Shortcode for documentation on the WordPress [gallery] shortcode
 		// gallery_shortcode() in wp-includes/media.php is the WordPress [gallery] shortcode handler function
@@ -291,36 +291,36 @@ EOD;
 		$thumbs .= do_shortcode("[gallery columns=$columns link=file id=$id orderby=\"$orderby\" order=\"$order\" size=\"$size\" include=\"$include\" exclude=\"$exclude\"]");
 		$thumbs .= '</div>'; // end div.gallerywrapper
 		$thumbs .= '</div>'; // end div.thumbnails
-		
+
 		// Large image panel HTML code
 		$large = '<div class="largeimage loading">';
-		
+
 		$attachments = get_children( array('post_parent' => $id, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => $order, 'orderby' => $orderby, 'numberposts' => 1) );
-		
+
 		// If there are no images for the gallery, then don't output anything
 		if (!is_array($attachments)) return '';
-		
+
 		$link = '';
 		$caption = '';
 		foreach ($attachments as $att) {
 			$link = wp_get_attachment_image_src($att->ID, 'full');
 			$caption = $att->post_excerpt;
 		}
-		
+
 
 		$large .= '<a href="' . $link[0] . '"><img src="' . $this->url . '/img/trans.gif" title="" alt="" class="simplegallerylargeimage" /></a>';
-		
+
 		// Display image caption
 		$large .= '<h3 class="imagecaption">' . $caption . '</h3>';
-		
+
 		if ($navigation) {
 			// Display image navigation
 			$large .= '<div class="simplegallerynavbar"></div>';
 		}
-		
+
 		$large .= "</div>";
-		
-		
+
+
 		// Now output the thumbnail/largeimage divs in the appropriate order
 		if ($thumbnailalign == 'bottom') {
 			// Bottom thumbnail alignment -> print large image div then thumbnail div
@@ -329,26 +329,26 @@ EOD;
 			// left, right or top alignment -> print thumbnail div first
 			$html .= $thumbs . $large;
 		}
-		
+
 		$html .= "<div class=\"clearboth\"></div></div>";
-		
+
 		self::$number++;
-		
+
 		return $html;
 	}
-	
+
     /**
      * If using the shutter reloaded plugin, force the shutter scripts to be loaded in the header.
      * If they are loaded in the footer, then the full screen shutter view doesn't work properly in IE8.
      * See Bug #1406
-     * 
+     *
      * Called during get_option('srel_options')
      */
     function ForceShutterReloadedInHead($value) {
         $value['headload'] = true;
         return $value;
     }
-	
+
 	function SaveInstalledVersion() {
 		update_option('om4_simple_gallery_db_version', $this->installedVersion);
 	}
