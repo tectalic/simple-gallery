@@ -32,21 +32,21 @@ License: GPLv2
 
 class OM4_Simple_Gallery {
 	
-	var $version = '1.8.3';
+	public $version = '1.8.3';
 	
-	var $dbVersion = 1;
+	public $dbVersion = 1;
 	
-	var $installedVersion;
+	public $installedVersion;
 	
-	var $dirname;
+	public $dirname;
 	
-	var $url;
+	public $url;
 	
 	static $number = 1;
 
-	var $script_suffix = '';
+	public $script_suffix = '';
 
-	var $style_suffix = '';
+	public $style_suffix = '';
 	
 	/**
 	 * Constructor
